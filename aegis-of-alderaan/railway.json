@@ -1,0 +1,10 @@
+{
+  "build": {
+    "builder": "DOCKERFILE"
+  },
+  "deploy": {
+    "startCommand": "python guardian-server/app.py",
+    "healthcheckPath": "/health",
+    "healthcheckTimeout": 10
+  }
+}

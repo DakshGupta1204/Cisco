@@ -1,0 +1,418 @@
+{
+  "info": {
+    "_postman_id": "aegis-ai-system-tests",
+    "name": "Aegis AI-Powered Self-Healing System",
+    "description": "Complete API collection for testing Gemini AI + Neo4j graph database integration",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:3001",
+      "type": "string"
+    },
+    {
+      "key": "agent_id",
+      "value": "test-agent-001",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "🏥 Health & Status",
+      "item": [
+        {
+          "name": "Health Check",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/health",
+              "host": ["{{base_url}}"],
+              "path": ["health"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Agents",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/agents",
+              "host": ["{{base_url}}"],
+              "path": ["agents"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "🧠 AI Health Analysis",
+      "item": [
+        {
+          "name": "AI Analyze Agent Health",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/ai/analyze/health/{{agent_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["ai", "analyze", "health", "{{agent_id}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "AI Mirror Recommendation",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/ai/mirror/recommend/{{agent_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["ai", "mirror", "recommend", "{{agent_id}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "AI Healing Strategy",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/ai/healing/strategy/{{agent_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["ai", "healing", "strategy", "{{agent_id}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "AI Predict Failure",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/ai/predict/failure/{{agent_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["ai", "predict", "failure", "{{agent_id}}"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "🔄 AI Mirror Management",
+      "item": [
+        {
+          "name": "AI Activate Mirror",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/ai/mirror/activate/{{agent_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["ai", "mirror", "activate", "{{agent_id}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "AI Mirror Topology",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/ai/mirror/topology",
+              "host": ["{{base_url}}"],
+              "path": ["ai", "mirror", "topology"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Agent Mirrors",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/agents/{{agent_id}}/mirrors",
+              "host": ["{{base_url}}"],
+              "path": ["agents", "{{agent_id}}", "mirrors"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "🛠️ Self-Healing Processes",
+      "item": [
+        {
+          "name": "Get AI Healing Processes",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/ai/healing/processes",
+              "host": ["{{base_url}}"],
+              "path": ["ai", "healing", "processes"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Initiate Self Healing",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"issue_type\": \"high_cpu\",\n  \"severity\": \"high\",\n  \"details\": {\n    \"cpu_percent\": 95,\n    \"memory_percent\": 88\n  }\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/agents/{{agent_id}}/healing/initiate",
+              "host": ["{{base_url}}"],
+              "path": ["agents", "{{agent_id}}", "healing", "initiate"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "🕸️ Neo4j Graph Operations",
+      "item": [
+        {
+          "name": "Create Mirror Relationship",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"mirror_agent\": \"test-mirror-001\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/agents/{{agent_id}}/relationships/mirror",
+              "host": ["{{base_url}}"],
+              "path": ["agents", "{{agent_id}}", "relationships", "mirror"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Setup Agent Mirroring",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"mirrors\": [\n    {\n      \"agent_id\": \"test-mirror-001\",\n      \"type\": \"active\",\n      \"priority\": 1\n    },\n    {\n      \"agent_id\": \"test-mirror-002\",\n      \"type\": \"passive\",\n      \"priority\": 2\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/agents/{{agent_id}}/mirror/setup",
+              "host": ["{{base_url}}"],
+              "path": ["agents", "{{agent_id}}", "mirror", "setup"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Network Topology",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/network/topology",
+              "host": ["{{base_url}}"],
+              "path": ["network", "topology"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Mirror Topology",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/network/mirror-topology",
+              "host": ["{{base_url}}"],
+              "path": ["network", "mirror-topology"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "⚔️ Attack Simulation",
+      "item": [
+        {
+          "name": "Get Attack Types",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/simulate/attack/types",
+              "host": ["{{base_url}}"],
+              "path": ["simulate", "attack", "types"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Simulate CPU Attack",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"target_agent\": \"{{agent_id}}\",\n  \"cpu_percentage\": 90,\n  \"duration\": 30\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/simulate/attack/cpu",
+              "host": ["{{base_url}}"],
+              "path": ["simulate", "attack", "cpu"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Simulate Memory Attack",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"target_agent\": \"{{agent_id}}\",\n  \"memory_mb\": 800,\n  \"duration\": 30\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/simulate/attack/memory",
+              "host": ["{{base_url}}"],
+              "path": ["simulate", "attack", "memory"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Simulate DDoS Attack",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"target_agent\": \"{{agent_id}}\",\n  \"request_rate\": 1000,\n  \"duration\": 30,\n  \"vector\": \"http_flood\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/simulate/attack/ddos",
+              "host": ["{{base_url}}"],
+              "path": ["simulate", "attack", "ddos"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Attack History",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/simulate/attack/history",
+              "host": ["{{base_url}}"],
+              "path": ["simulate", "attack", "history"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "🔐 Authentication",
+      "item": [
+        {
+          "name": "Authenticate Agent",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"agent_id\": \"{{agent_id}}\",\n  \"hostname\": \"test-server-1\",\n  \"role\": \"web_server\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/agent",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "agent"]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}

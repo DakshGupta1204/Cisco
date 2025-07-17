@@ -1,0 +1,28 @@
+# Aegis of Alderaan Agent Dependencies
+
+# Core system monitoring
+psutil>=5.9.0
+
+# Web communication
+aiohttp>=3.8.0
+websockets>=11.0.0
+
+# JWT authentication
+PyJWT>=2.8.0
+
+# Data processing
+numpy>=1.24.0
+
+# Configuration
+PyYAML>=6.0
+python-dotenv>=1.0.0
+
+# Logging and utilities
+python-dateutil>=2.8.0
+
+# Optional: For enhanced network scanning
+# python-nmap>=0.7.1
+
+# Optional: For ML-based anomaly detection
+# scikit-learn>=1.3.0
+# scipy>=1.10.0

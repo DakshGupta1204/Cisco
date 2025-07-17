@@ -1,0 +1,74 @@
+services:
+  # Guardian Server - Main API
+  - type: web
+    name: aegis-guardian
+    runtime: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    startCommand: python guardian-server/app.py
+    healthCheckPath: /health
+    envVars:
+      - key: PORT
+        value: 3001
+      - key: PYTHONUNBUFFERED
+        value: 1
+      - key: MONGODB_URI
+        fromSecret: MONGODB_URI
+      - key: NEO4J_URI
+        fromSecret: NEO4J_URI
+      - key: NEO4J_USER
+        fromSecret: NEO4J_USER
+      - key: NEO4J_PASSWORD
+        fromSecret: NEO4J_PASSWORD
+      - key: JWT_SECRET_KEY
+        fromSecret: JWT_SECRET_KEY
+      - key: JWT_ALGORITHM
+        value: HS256
+      - key: JWT_EXPIRATION_HOURS
+        value: 24
+
+  # Agent 1 - Background Service
+  - type: worker
+    name: aegis-agent-1
+    runtime: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    startCommand: python -c "import os; os.environ['AGENT_ID']='cloud-agent-001'; exec(open('agent/main.py').read())"
+    envVars:
+      - key: AGENT_ID
+        value: cloud-agent-001
+      - key: GUARDIAN_URL
+        value: https://aegis-guardian.onrender.com
+      - key: MONGODB_URI
+        fromSecret: MONGODB_URI
+      - key: NEO4J_URI
+        fromSecret: NEO4J_URI
+      - key: NEO4J_USER
+        fromSecret: NEO4J_USER
+      - key: NEO4J_PASSWORD
+        fromSecret: NEO4J_PASSWORD
+      - key: JWT_SECRET_KEY
+        fromSecret: JWT_SECRET_KEY
+
+  # Agent 2 - Background Service
+  - type: worker
+    name: aegis-agent-2
+    runtime: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    startCommand: python -c "import os; os.environ['AGENT_ID']='cloud-agent-002'; exec(open('agent/main.py').read())"
+    envVars:
+      - key: AGENT_ID
+        value: cloud-agent-002
+      - key: GUARDIAN_URL
+        value: https://aegis-guardian.onrender.com
+      - key: MONGODB_URI
+        fromSecret: MONGODB_URI
+      - key: NEO4J_URI
+        fromSecret: NEO4J_URI
+      - key: NEO4J_USER
+        fromSecret: NEO4J_USER
+      - key: NEO4J_PASSWORD
+        fromSecret: NEO4J_PASSWORD
+      - key: JWT_SECRET_KEY
+        fromSecret: JWT_SECRET_KEY

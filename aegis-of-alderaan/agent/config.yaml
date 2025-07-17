@@ -1,1 +1,52 @@
-# Hostname, server URL, peer config
+# Agent Configuration for Aegis of Alderaan
+# Environment variables can be used with ${VAR_NAME} syntax
+
+agent:
+  id: "agent-001"
+  hostname: "${HOSTNAME:-localhost}"
+  role: "endpoint"
+  port: 8080
+
+guardian:
+  # For cloud deployment, use your cloud server URL
+  # Example: wss://your-guardian-server.herokuapp.com/ws/agent
+  server_url: "${GUARDIAN_SERVER_URL:-ws://localhost:3001/ws/agent}"
+  http_url: "${GUARDIAN_HTTP_URL:-http://localhost:3001}"
+  reconnect_interval: 5
+  heartbeat_interval: 30
+  # SSL/TLS settings for cloud connections
+  ssl_verify: true
+  connection_timeout: 30
+
+metrics:
+  collection_interval: 10 # seconds
+  batch_size: 10
+  retention_hours: 24
+
+monitoring:
+  cpu_threshold: 80
+  memory_threshold: 85
+  disk_threshold: 90
+  network_threshold: 100 # Mbps
+
+security:
+  # Use environment variable for JWT secret in production
+  jwt_secret: "${JWT_SECRET_KEY:-aegis-secret-key}"
+  jwt_expiry: 3600 # 1 hour
+
+failover:
+  mirror_agent_url: null # Set during runtime
+
+  # Cloud Configuration Notes:
+  # 1. Set GUARDIAN_SERVER_URL to your cloud WebSocket endpoint
+  # 2. Set GUARDIAN_HTTP_URL to your cloud HTTP endpoint
+  # 3. Set JWT_SECRET_KEY to match your Guardian server
+  # 4. For HTTPS/WSS connections, ensure ssl_verify is true
+  health_check_interval: 15
+  failover_timeout: 30
+
+logging:
+  level: "INFO"
+  file: "agent.log"
+  max_size: "10MB"
+  backup_count: 3

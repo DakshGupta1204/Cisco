@@ -1,0 +1,27 @@
+services:
+  - type: web
+    name: aegis-guardian
+    runtime: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    startCommand: python guardian-server/app.py
+    healthCheckPath: /health
+    envVars:
+      - key: PORT
+        value: 3001
+      - key: PYTHONUNBUFFERED
+        value: 1
+      - key: MONGODB_URI
+        fromSecret: MONGODB_URI
+      - key: NEO4J_URI
+        fromSecret: NEO4J_URI
+      - key: NEO4J_USER
+        fromSecret: NEO4J_USER
+      - key: NEO4J_PASSWORD
+        fromSecret: NEO4J_PASSWORD
+      - key: JWT_SECRET_KEY
+        fromSecret: JWT_SECRET_KEY
+      - key: JWT_ALGORITHM
+        value: HS256
+      - key: JWT_EXPIRATION_HOURS
+        value: 24
