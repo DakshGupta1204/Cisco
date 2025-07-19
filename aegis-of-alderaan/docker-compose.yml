@@ -1,0 +1,124 @@
+services:
+  # Guardian Server - Central orchestration
+  aegis-guardian:
+    build: .
+    container_name: aegis-guardian-server
+    ports:
+      - "3001:3001"
+    environment:
+      - MONGODB_URI=${MONGODB_URI}
+      - NEO4J_URI=${NEO4J_URI}
+      - NEO4J_USER=${NEO4J_USER}
+      - NEO4J_PASSWORD=${NEO4J_PASSWORD}
+      - JWT_SECRET_KEY=${JWT_SECRET_KEY}
+      - JWT_ALGORITHM=${JWT_ALGORITHM}
+      - JWT_EXPIRATION_HOURS=${JWT_EXPIRATION_HOURS}
+    env_file:
+      - .env
+    volumes:
+      - ./logs:/app/logs
+    command: ["python", "guardian-server/app.py"]
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3001/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - aegis-network
+
+  # Agent 1 - Primary monitoring agent
+  aegis-agent-1:
+    build: .
+    container_name: aegis-agent-primary
+    environment:
+      - AGENT_ID=agent-001
+      - AGENT_HOSTNAME=agent-primary
+      - AGENT_ROLE=primary_monitor
+      - GUARDIAN_URL=http://aegis-guardian:3001
+    env_file:
+      - .env
+    volumes:
+      - ./logs:/app/logs
+    command: ["python", "agent/main.py"]
+    depends_on:
+      aegis-guardian:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - aegis-network
+
+  # Agent 2 - Backup monitoring agent
+  aegis-agent-2:
+    build: .
+    container_name: aegis-agent-backup
+    environment:
+      - AGENT_ID=agent-002
+      - AGENT_HOSTNAME=agent-backup
+      - AGENT_ROLE=backup_monitor
+      - GUARDIAN_URL=http://aegis-guardian:3001
+    env_file:
+      - .env
+    volumes:
+      - ./logs:/app/logs
+    command: ["python", "agent/main.py"]
+    depends_on:
+      aegis-guardian:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - aegis-network
+
+  # Agent 3 - Edge monitoring agent
+  aegis-agent-3:
+    build: .
+    container_name: aegis-agent-edge
+    environment:
+      - AGENT_ID=agent-003
+      - AGENT_HOSTNAME=agent-edge
+      - AGENT_ROLE=edge_monitor
+      - GUARDIAN_URL=http://aegis-guardian:3001
+    env_file:
+      - .env
+    volumes:
+      - ./logs:/app/logs
+    command: ["python", "agent/main.py"]
+    depends_on:
+      aegis-guardian:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - aegis-network
+
+  # Neo4j Relationship Setup - Creates relationships between agents
+  aegis-relationships:
+    build: .
+    container_name: aegis-relationship-manager
+    environment:
+      - GUARDIAN_URL=http://aegis-guardian:3001
+    env_file:
+      - .env
+    volumes:
+      - ./logs:/app/logs
+    command: ["python", "populate_neo4j.py"]
+    depends_on:
+      aegis-guardian:
+        condition: service_healthy
+      aegis-agent-1:
+        condition: service_started
+      aegis-agent-2:
+        condition: service_started
+      aegis-agent-3:
+        condition: service_started
+    restart: "no" # Run once to setup relationships
+    networks:
+      - aegis-network
+
+networks:
+  aegis-network:
+    driver: bridge
+
+volumes:
+  aegis-logs:
+    driver: local

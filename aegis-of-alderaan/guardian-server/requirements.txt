@@ -1,1 +1,49 @@
-# Python dependencies for Guardian server
+# Aegis of Alderaan Guardian Server Dependencies
+
+# FastAPI framework
+fastapi>=0.104.0
+uvicorn[standard]>=0.24.0
+
+# WebSocket support
+websockets>=11.0.0
+
+# JWT authentication
+PyJWT>=2.8.0
+
+# Database drivers
+motor>=3.3.0  # MongoDB async driver
+pymongo>=4.5.0  # MongoDB sync driver (for testing)
+neo4j>=5.12.0  # Neo4j driver
+
+# AI and Machine Learning
+google-generativeai>=0.8.0  # Gemini AI
+
+# Environment variables support
+python-dotenv>=1.0.0
+
+# HTTP client
+aiohttp>=3.8.0
+
+# Data validation
+pydantic>=2.4.0
+
+# Configuration
+python-dotenv>=1.0.0
+
+# Date/time utilities
+python-dateutil>=2.8.0
+
+# Logging
+structlog>=23.1.0
+
+# Optional: Enhanced security
+# cryptography>=41.0.0
+
+# Optional: Metrics and monitoring
+# prometheus-client>=0.17.0
+
+# Development dependencies (uncomment for dev)
+# pytest>=7.4.0
+# pytest-asyncio>=0.21.0
+# black>=23.7.0
+# flake8>=6.0.0

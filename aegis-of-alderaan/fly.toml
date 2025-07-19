@@ -1,0 +1,24 @@
+# fly.toml app configuration file
+app = "aegis-guardian"
+primary_region = "ord"
+
+[build]
+
+[http_service]
+  internal_port = 3001
+  force_https = true
+  auto_stop_machines = "stop"
+  auto_start_machines = true
+  min_machines_running = 1
+  processes = ["app"]
+
+[[http_service.checks]]
+  interval = "15s"
+  timeout = "2s"
+  grace_period = "5s"
+  method = "GET"
+  path = "/health"
+
+[env]
+  PORT = "3001"
+  PYTHONUNBUFFERED = "1"
